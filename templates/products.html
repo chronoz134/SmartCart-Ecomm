@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SmartCart - Products</title>
+</head>
+<body>
+    <h1>All Products</h1>
+    <ul>
+        {% for product in products %}
+            <li>
+                <strong>{{ product.name }}</strong><br>
+                Price: ${{ product.price }}<br>
+                <a href="{{ url_for('products.get_product_html', product_id=product.id) }}">View Details</a>
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+</body>
+</html>
