@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from models import Product, ProductSchema, db
+from flask import render_template
 
 products_bp = Blueprint('products', __name__, url_prefix='/products')
 product_schema = ProductSchema()
@@ -57,6 +58,19 @@ products = [
         'description': '7-in-1 USB-C Hub with HDMI and card reader.'
     }
 ]
+
+@products_bp.route('/view')
+def list_products_html():
+    return render_template('products.html', products=products)
+
+@products_bp.route('/view/<int:product_id>')
+def get_product_html(product_id):
+    product = next((p for p in products if p['id'] == product_id), None)
+    if product:
+        return render_template('product_detail.html', product=product)
+    else:
+        return "<h1>Product not found</h1>", 404
+
 @products_bp.route('/')
 def list_products():
     return jsonify(products)
